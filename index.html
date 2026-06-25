@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="icon.png" />
+<link rel="apple-touch-icon" href="icon.png" />
 <title>Glean — Private document scanner for iPhone</title>
 <meta name="description" content="Glean turns your iPhone into a private document scanner. Crisp, searchable PDFs kept on your device — and in your Google Drive only if you choose." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,10 +35,10 @@
     letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
   }
   .mark{
-    width:34px;height:34px;border-radius:10px;background:var(--accent);
-    display:grid;place-items:center;flex:none;
+    width:34px;height:34px;border-radius:10px;flex:none;display:block;
+    background:#5E22BC url("icon.png") center/cover no-repeat;
   }
-  .mark span{width:13px;height:16px;border-radius:3px;background:#fff;display:block}
+  .mark span{display:none}
 
   /* nav */
   nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);
