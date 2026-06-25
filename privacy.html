@@ -9,59 +9,79 @@
 <meta name="description" content="Glean's privacy policy. Glean processes documents on your device and has no servers that see your files." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
-  :root{--ground:#F4EFFB;--card:#FFFFFF;--text:#1C1B22;--muted:#6B6976;--accent:#6326C2;--accent-2:#9B6CF0;--border:rgba(99,38,194,.12)}
+  :root{
+    --ground:#F2ECFB;--card:#FFFFFF;--ink:#16121F;--muted:#6A6479;
+    --violet:#6326C2;--violet-2:#8B4FE6;--scan:#2F6FE0;--line:rgba(99,38,194,.13);
+  }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--ground);color:var(--text);font-family:"Hanken Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
-  a{color:var(--accent)}
-  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
-  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-  .mark{width:32px;height:32px;border-radius:9px;flex:none;display:block;background:#5E22BC url("icon.png") center/cover no-repeat}
+  body{margin:0;color:var(--ink);
+    background:radial-gradient(120% 80% at 85% -10%,rgba(139,79,230,.20),transparent 55%),
+      radial-gradient(100% 70% at -10% 0%,rgba(47,111,224,.12),transparent 50%),var(--ground);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.65}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(99,38,194,.10) 1px,transparent 1.4px);background-size:24px 24px;
+    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 80%);mask-image:linear-gradient(to bottom,#000,transparent 80%)}
+  a{color:var(--violet)}
+  .wrap{max-width:800px;margin:0 auto;padding:0 26px}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:500;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--violet);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:18px;height:1.5px;background:var(--violet);opacity:.6}
+  .mark{width:36px;height:36px;border-radius:11px;flex:none;display:block;
+    background:#5E22BC url("icon.png") center/cover no-repeat;box-shadow:0 6px 16px -6px rgba(99,38,194,.6)}
   .mark span{display:none}
-  nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--ground) 82%,transparent);border-bottom:1px solid var(--border)}
-  nav .bar{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:14px;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.02em;text-decoration:none;color:var(--text)}
-  nav .links{margin-left:auto;display:flex;gap:24px;font-size:15px;font-weight:600}
-  nav .links a{text-decoration:none;color:var(--muted)}
-  nav .links a:hover{color:var(--text)}
-  main{padding:56px 0 24px}
-  h1{font-size:clamp(34px,5vw,48px);line-height:1.04;letter-spacing:-.03em;font-weight:800;margin:12px 0 6px}
-  .updated{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted);margin:0 0 30px}
-  h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin:36px 0 10px}
-  p{margin:0 0 14px}
-  ul{padding-left:22px;margin:0 0 14px}
-  li{margin:8px 0}
-  code{background:rgba(99,38,194,.08);padding:1px 6px;border-radius:6px;font-family:"JetBrains Mono",monospace;font-size:.86em}
-  .lead{font-size:18px;color:var(--text)}
-  .callout{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 24px;margin:0 0 8px}
-  footer{border-top:1px solid var(--border);margin-top:48px;padding:36px 0}
-  footer .bar{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  footer .links{margin-left:auto;display:flex;gap:22px;font-size:14px;font-weight:600}
-  footer .links a{color:var(--muted);text-decoration:none}
-  footer .links a:hover{color:var(--accent)}
-  .built{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);width:100%;letter-spacing:.04em}
-  @media (max-width:560px){nav .links a{display:none}}
-  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px) saturate(1.2);
+    background:color-mix(in srgb,var(--ground) 72%,transparent);border-bottom:1px solid var(--line)}
+  nav .bar{max-width:1140px;margin:0 auto;padding:0 26px;display:flex;align-items:center;gap:14px;height:70px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+  nav .links{margin-left:auto;display:flex;gap:28px;align-items:center;font-size:15px;font-weight:600}
+  nav .links a{text-decoration:none;color:var(--muted);transition:color .18s}
+  nav .links a:hover{color:var(--ink)}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff!important;
+    padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:700;text-decoration:none;transition:transform .18s,box-shadow .18s}
+  .pill:hover{transform:translateY(-1px);box-shadow:0 12px 24px -12px rgba(22,18,31,.6)}
+  main{padding:clamp(46px,7vw,82px) 0 24px}
+  h1{font-size:clamp(38px,6vw,60px);line-height:1.02;letter-spacing:-.035em;font-weight:900;margin:18px 0 8px}
+  .updated{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted);margin:0 0 34px}
+  h2{font-size:24px;font-weight:800;letter-spacing:-.015em;margin:42px 0 12px}
+  p{margin:0 0 15px}
+  ul{padding-left:22px;margin:0 0 15px}
+  li{margin:9px 0}
+  code{background:rgba(99,38,194,.10);padding:1px 7px;border-radius:6px;font-family:"JetBrains Mono",monospace;font-size:.85em}
+  .callout{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 30px;margin:0 0 8px;
+    box-shadow:0 24px 50px -38px rgba(40,16,90,.4)}
+  .lead{font-size:18px;color:var(--ink);line-height:1.6;margin:0}
+  footer{background:var(--ink);color:#cfc8db;margin-top:clamp(48px,7vw,80px)}
+  footer .bar{max-width:1140px;margin:0 auto;padding:46px 26px 0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  footer .brand{color:#fff;font-size:18px}
+  footer .links{margin-left:auto;display:flex;gap:26px;font-size:14px;font-weight:600}
+  footer .links a{color:#b3aac6;text-decoration:none;transition:color .18s}
+  footer .links a:hover{color:#fff}
+  .built{font-family:"JetBrains Mono",monospace;font-size:12px;color:#8b83a0;width:100%;letter-spacing:.03em;
+    border-top:1px solid rgba(255,255,255,.08);padding:22px 0 40px;margin-top:22px}
+  @media (max-width:600px){nav .links a:not(.pill){display:none}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto;transition:none!important}}
 </style>
 </head>
 <body>
 <nav><div class="bar">
-  <a class="brand" href="./"><span class="mark"><span></span></span>Glean</a>
+  <a class="brand" href="./"><span class="mark"></span>Glean</a>
   <div class="links">
     <a href="./">Home</a>
     <a href="support.html">Support</a>
+    <a class="pill" href="./#get">Get the app</a>
   </div>
 </div></nav>
 
 <main class="wrap">
-  <div class="eyebrow">Legal</div>
+  <span class="eyebrow">Legal</span>
   <h1>Privacy Policy</h1>
   <p class="updated">Last updated: 20 June 2026</p>
 
   <div class="callout">
-    <p class="lead" style="margin:0">Glean (“the app”) is a document scanner built by <strong>TechFoundry</strong>. <strong>Glean has no backend server</strong> — it processes your documents on your device and stores files in <strong>your own</strong> cloud account. We do not operate servers that receive your documents.</p>
+    <p class="lead">Glean (“the app”) is a document scanner built by <strong>TechFoundry</strong>. <strong>Glean has no backend server</strong> — it processes your documents on your device and stores files in <strong>your own</strong> cloud account. We do not operate servers that receive your documents.</p>
   </div>
 
   <h2>What the app accesses</h2>
@@ -107,7 +127,7 @@
 </main>
 
 <footer><div class="bar">
-  <a class="brand" href="./"><span class="mark"><span></span></span>Glean</a>
+  <a class="brand" href="./"><span class="mark"></span>Glean</a>
   <div class="links">
     <a href="privacy.html">Privacy</a>
     <a href="support.html">Support</a>
