@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="icon.png" />
+<link rel="apple-touch-icon" href="icon.png" />
+<meta name="description" content="How Glean went from a design post to a live App Store app in about a week — and how AI is helping solo builders ship fast." />
+<meta property="og:title" content="From a design post to the App Store, in a week" />
+<meta property="og:description" content="How Glean shipped fast — and how AI is changing the math for solo builders." />
+<meta property="og:image" content="https://products.tech-foundry.com/glean/icon.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<title>Glean — From a design post to the App Store, in a week</title>
+<style>
+  :root{
+    --ground:#141019;
+    --panel:#1C1628;
+    --panel-2:#241B33;
+    --text:#ECE7F5;
+    --muted:#9A93AD;
+    --faint:#6E6786;
+    --violet:#8B4FE6;
+    --violet-deep:#6326C2;
+    --scan:#4F8DF0;
+    --paper:#FFFFFF;
+    --line:rgba(160,130,235,.16);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;color:var(--text);
+    background:
+      radial-gradient(120% 70% at 88% -8%, rgba(139,79,230,.28), transparent 55%),
+      radial-gradient(90% 60% at -10% 4%, rgba(79,141,240,.16), transparent 52%),
+      var(--ground);
+    font-family:"Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(160,130,235,.10) 1px,transparent 1.5px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 80%);
+    mask-image:linear-gradient(to bottom,#000,transparent 80%);
+  }
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1.25rem,4vw,2rem) 4rem}
+
+  .mono{font-family:"JetBrains Mono","JetBrains Mono",ui-monospace,monospace}
+  .eyebrow{
+    font-family:"JetBrains Mono","JetBrains Mono",ui-monospace,monospace;font-size:.72rem;font-weight:500;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--violet);
+    display:inline-flex;align-items:center;gap:.6rem;
+  }
+  .eyebrow::before{content:"";width:20px;height:1.5px;background:var(--violet);opacity:.6}
+
+  /* brand row */
+  .brandrow{display:flex;align-items:center;gap:.7rem;margin-bottom:clamp(2rem,5vw,3rem)}
+  .mark{width:40px;height:40px;border-radius:12px;flex:none;
+    background:linear-gradient(155deg,#7B43DE,#5E22BC);position:relative;overflow:hidden;
+    box-shadow:0 8px 22px -8px rgba(99,38,194,.8)}
+  .mark svg{position:absolute;inset:0;width:100%;height:100%}
+  .brandrow b{font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
+  .brandrow .who{color:var(--faint);font-size:.85rem;margin-left:.1rem}
+  .ship{margin-left:auto;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.66rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#7CE0B8;background:rgba(60,200,150,.12);
+    border:1px solid rgba(60,200,150,.3);padding:.34rem .6rem;border-radius:999px;display:inline-flex;gap:.45rem;align-items:center}
+  .ship .dot{width:7px;height:7px;border-radius:50%;background:#3CCB96;box-shadow:0 0 0 4px rgba(60,203,150,.18)}
+
+  /* hero */
+  h1{font-size:clamp(2.3rem,6.4vw,4rem);line-height:1.02;letter-spacing:-.035em;font-weight:850;margin:1.4rem 0 0}
+  h1 .g{background:linear-gradient(110deg,var(--violet),var(--scan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:clamp(1.05rem,2vw,1.22rem);color:#C9C2DE;max-width:54ch;margin:1.4rem 0 0}
+  .lede b{color:var(--text);font-weight:600}
+
+  /* the scan strip — signature moment */
+  .scanstrip{position:relative;margin:clamp(2rem,5vw,2.8rem) 0 0;height:120px;border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,var(--panel),#17121f);border:1px solid var(--line);
+    display:grid;place-items:center}
+  .scanstrip .doc{width:74px;height:92px;border-radius:9px;background:var(--paper);position:relative;
+    box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+  .scanstrip .doc i{position:absolute;left:14px;height:6px;border-radius:3px;background:#C9BCEC;display:block}
+  .scanstrip .doc i:nth-child(1){top:20px;width:44px;background:var(--violet-deep)}
+  .scanstrip .doc i:nth-child(2){top:34px;width:32px}
+  .scanstrip .doc i:nth-child(3){top:48px;width:40px}
+  .scanstrip .beam{position:absolute;left:0;right:0;height:40px;
+    background:linear-gradient(180deg,transparent,rgba(79,141,240,.0) 10%,rgba(79,141,240,.35),rgba(150,190,255,.6),rgba(79,141,240,.35),transparent);
+    box-shadow:0 0 26px rgba(79,141,240,.6);animation:beam 3.6s cubic-bezier(.6,0,.4,1) infinite}
+  @keyframes beam{0%{top:-10px;opacity:0}14%{opacity:1}50%{top:100%;opacity:1}64%{opacity:0}100%{top:-10px;opacity:0}}
+  .scanstrip b{position:absolute;bottom:12px;right:16px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.64rem;letter-spacing:.1em;color:var(--faint)}
+
+  /* timeline */
+  .sect{margin-top:clamp(2.6rem,6vw,3.6rem)}
+  .sect h2{font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.025em;font-weight:800;margin:.9rem 0 0}
+  .sect p.intro{color:var(--muted);margin:.7rem 0 0;max-width:56ch}
+  .timeline{margin-top:1.8rem;display:grid;gap:0}
+  .tl{display:grid;grid-template-columns:104px 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line);align-items:start}
+  .tl:last-child{border-bottom:1px solid var(--line)}
+  .tl .when{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.74rem;color:var(--scan);letter-spacing:.02em;padding-top:.15rem}
+  .tl h3{margin:0;font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+  .tl p{margin:.25rem 0 0;color:var(--muted);font-size:.95rem}
+  .tl.live h3{color:var(--violet)}
+
+  /* AI callout */
+  .ai{margin-top:clamp(2.6rem,6vw,3.6rem);background:linear-gradient(160deg,var(--panel-2),#181222);
+    border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,4vw,2.4rem)}
+  .ai h2{margin:.8rem 0 0;font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.025em;font-weight:800}
+  .ai p{color:#C4BDD6;margin:1rem 0 0}
+  .ai ul{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:.85rem}
+  .ai li{display:grid;grid-template-columns:22px 1fr;gap:.7rem;color:#C4BDD6;font-size:.98rem}
+  .ai li svg{width:18px;height:18px;margin-top:.28rem;stroke:var(--scan);fill:none;stroke-width:2}
+  .ai .kicker{color:var(--text);font-weight:600}
+  .ai .close{margin-top:1.5rem;font-size:1.02rem;color:var(--text);border-left:2px solid var(--violet);padding-left:1rem}
+
+  /* what it is */
+  .what{margin-top:clamp(2.4rem,6vw,3.4rem);display:grid;gap:.7rem}
+  .what .row{display:flex;gap:.7rem;align-items:flex-start;color:#C9C2DE;font-size:1rem}
+  .what .row svg{width:18px;height:18px;margin-top:.32rem;flex:none;stroke:var(--violet);fill:none;stroke-width:2}
+
+  /* CTA */
+  .cta{margin-top:clamp(2.6rem,6vw,3.4rem);text-align:center}
+  .cta h2{font-size:clamp(1.5rem,3.4vw,2.1rem);letter-spacing:-.03em;font-weight:850;margin:0 auto;max-width:20ch}
+  .badge{margin-top:1.4rem;display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;
+    background:linear-gradient(110deg,#7B43DE,#4F8DF0);color:#fff;font-weight:700;
+    padding:1rem 1.5rem;border-radius:16px;box-shadow:0 18px 40px -16px rgba(79,141,240,.6);
+    transition:transform .2s,box-shadow .2s}
+  .badge:hover{transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(79,141,240,.7)}
+  .badge:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .badge small{display:block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+  .badge b{font-size:1.05rem;line-height:1.1}
+
+  footer{margin-top:clamp(2.6rem,6vw,3.6rem);padding-top:1.6rem;border-top:1px solid var(--line);
+    display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;color:var(--faint);font-size:.85rem}
+  footer .mono{color:var(--muted)}
+  footer a{color:var(--violet);text-decoration:none}
+
+  @media (max-width:560px){
+    .tl{grid-template-columns:1fr;gap:.2rem}.tl .when{padding-top:0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .beam{animation:none;top:40px;opacity:.9}
+    .badge{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="brandrow">
+    <span class="mark">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="34" y="28" width="31" height="44" rx="5" fill="#FFFFFF" opacity="0.4" transform="rotate(-12 50 50)"/>
+        <rect x="34" y="28" width="31" height="44" rx="5" fill="#F4ECFF" opacity="0.7" transform="rotate(-3 50 50)"/>
+        <g transform="rotate(7 50 50)">
+          <path d="M34 32 a5 5 0 0 1 5 -5 h20 l8 8 v30 a5 5 0 0 1 -5 5 h-23 a5 5 0 0 1 -5 -5 z" fill="#FFFFFF"/>
+          <path d="M59 27 v5 a5 5 0 0 0 5 5 h5 z" fill="#D9C6F7"/>
+          <rect x="39" y="46" width="22" height="3.4" rx="1.7" fill="#7B43DE"/>
+          <rect x="39" y="53" width="16" height="2.6" rx="1.3" fill="#B79CF2"/>
+        </g>
+      </svg>
+    </span>
+    <b>Glean</b><span class="who">· TechFoundry</span>
+    <span class="ship"><span class="dot"></span>Live on the App Store</span>
+  </div>
+
+  <span class="eyebrow">Build log · shipped</span>
+  <h1>From a design post<br>to the <span class="g">App Store</span>,<br>in a week.</h1>
+  <p class="lede">A few days ago I shared some of my mobile design work here. Today that design is a real app you can download — <b>Glean</b>, a private document scanner for iPhone. Here's the timeline, and an honest note on why solo building moves this fast now.</p>
+
+  <div class="scanstrip" aria-hidden="true">
+    <div class="doc"><i></i><i></i><i></i></div>
+    <div class="beam"></div>
+    <b>scanning…</b>
+  </div>
+
+  <section class="sect">
+    <span class="eyebrow">The timeline</span>
+    <h2>Design to download, compressed.</h2>
+    <p class="intro">No team, no backend, no runway — one person going from a Figma direction to a reviewed, approved app in roughly a week.</p>
+    <div class="timeline">
+      <div class="tl"><span class="when">Day 1</span><div><h3>Shared the design</h3><p>Posted the mobile concept for a calm, privacy-first scanner.</p></div></div>
+      <div class="tl"><span class="when">Days 2–6</span><div><h3>Built it for real</h3><p>React Native + Expo, native iOS scanning, on-device text recognition, searchable-PDF export, optional Google Drive sync.</p></div></div>
+      <div class="tl"><span class="when">Day 7</span><div><h3>Submitted to App Review</h3><p>Store listing, screenshots, privacy details, a unique icon, and a marketing site — all in place.</p></div></div>
+      <div class="tl live"><span class="when">This week</span><div><h3>Approved &amp; live</h3><p>Glean v1.0 is on the App Store.</p></div></div>
+    </div>
+  </section>
+
+  <div class="ai">
+    <span class="eyebrow">The honest part</span>
+    <h2>AI is changing the math for solo builders.</h2>
+    <p>I designed and built Glean end to end, by myself. That used to mean months. AI was the force multiplier that turned it into days — not by doing the thinking for me, but by removing the drag between an idea and a working build.</p>
+    <ul>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">Idea → working screen, same sitting.</span> Design directions became real React Native UI fast enough to actually feel the product and iterate.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">Native walls cleared in minutes.</span> The gnarly iOS build and linker issues that used to eat days got diagnosed and fixed quickly.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">The whole launch surface, not just code.</span> Icon, marketing site, store assets, and copy — produced and polished without a separate sprint for each.</span></li>
+    </ul>
+    <p class="close">The taste, the product decisions, and the privacy stance are still mine. AI just collapsed the distance to shipped.</p>
+  </div>
+
+  <section class="what">
+    <span class="eyebrow" style="margin-bottom:.3rem">What Glean does</span>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/></svg><span>Scan receipts and documents into crisp, <b style="color:var(--text);font-weight:600">searchable PDFs</b>.</span></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M6 4h9l5 5v11H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v5h5"/></svg><span>Edit, then store straight to your <b style="color:var(--text);font-weight:600">Google Drive</b> — or keep everything on your device.</span></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9.5 12l2 2 3.5-3.5"/></svg><span><b style="color:var(--text);font-weight:600">Privacy by Design:</b> on-device scanning and OCR — no servers ever see your documents.</span></div>
+  </section>
+
+  <div class="cta">
+    <h2>Try Glean on your iPhone.</h2>
+    <a class="badge" href="https://apps.apple.com/app/id6782263456" target="_blank" rel="noopener">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.3 12.6c0-2 1.6-3 1.7-3.05-0.93-1.36-2.38-1.55-2.9-1.57-1.23-.12-2.4.72-3.03.72-.62 0-1.59-.7-2.61-.68-1.34.02-2.58.78-3.27 1.98-1.4 2.42-.36 6 1 7.96.67.96 1.46 2.03 2.5 1.99 1-.04 1.39-.65 2.6-.65 1.21 0 1.56.65 2.62.63 1.08-.02 1.76-.97 2.42-1.94.76-1.11 1.07-2.19 1.09-2.24-.02-.01-2.09-.8-2.11-3.18zM14.5 6.2c.55-.67.92-1.6.82-2.53-.79.03-1.76.53-2.33 1.2-.51.58-.96 1.53-.84 2.43.88.07 1.79-.45 2.35-1.1z"/></svg>
+      <span><small>Download on the</small><b>App Store</b></span>
+    </a>
+  </div>
+
+  <footer>
+    <span class="mark" style="width:26px;height:26px;border-radius:8px">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(7 50 50)"><path d="M34 32 a5 5 0 0 1 5 -5 h20 l8 8 v30 a5 5 0 0 1 -5 5 h-23 a5 5 0 0 1 -5 -5 z" fill="#FFFFFF"/><rect x="39" y="46" width="22" height="3.4" rx="1.7" fill="#7B43DE"/><rect x="39" y="53" width="16" height="2.6" rx="1.3" fill="#B79CF2"/></g></svg>
+    </span>
+    <span class="mono">Built &amp; designed by Zahid Hussain · TechFoundry</span>
+    <a href="https://products.tech-foundry.com/glean/" target="_blank" rel="noopener" style="margin-left:auto">glean ↗</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
