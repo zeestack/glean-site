@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="icon.png" />
 <link rel="apple-touch-icon" href="icon.png" />
-<meta name="description" content="How Glean went from a design post to a live App Store app in about a week — and how AI is helping solo builders ship fast." />
+<meta name="description" content="How I shipped Glean — a private iPhone document scanner — from a design post to a live App Store app in about a week, solo, with AI as a genuine force multiplier. The real story, specific moments included." />
 <meta property="og:title" content="From a design post to the App Store, in a week" />
-<meta property="og:description" content="How Glean shipped fast — and how AI is changing the math for solo builders." />
+<meta property="og:description" content="The real story of shipping Glean solo — including the rejection I recovered from the same day — and the honest role AI played." />
 <meta property="og:image" content="https://products.tech-foundry.com/glean/icon.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,16 +16,9 @@
 <title>Glean — From a design post to the App Store, in a week</title>
 <style>
   :root{
-    --ground:#141019;
-    --panel:#1C1628;
-    --panel-2:#241B33;
-    --text:#ECE7F5;
-    --muted:#9A93AD;
-    --faint:#6E6786;
-    --violet:#8B4FE6;
-    --violet-deep:#6326C2;
-    --scan:#4F8DF0;
-    --paper:#FFFFFF;
+    --ground:#141019;--panel:#1C1628;--panel-2:#241B33;
+    --text:#ECE7F5;--muted:#9A93AD;--faint:#6E6786;
+    --violet:#8B4FE6;--violet-deep:#6326C2;--scan:#4F8DF0;--paper:#FFFFFF;
     --line:rgba(160,130,235,.16);
   }
   *{box-sizing:border-box}
@@ -40,22 +33,14 @@
   }
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
-    background-image:radial-gradient(rgba(160,130,235,.10) 1px,transparent 1.5px);
-    background-size:26px 26px;
-    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 80%);
-    mask-image:linear-gradient(to bottom,#000,transparent 80%);
+    background-image:radial-gradient(rgba(160,130,235,.10) 1px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to bottom,#000,transparent 80%);mask-image:linear-gradient(to bottom,#000,transparent 80%);
   }
   .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:clamp(2rem,5vw,4rem) clamp(1.25rem,4vw,2rem) 4rem}
-
-  .mono{font-family:"JetBrains Mono","JetBrains Mono",ui-monospace,monospace}
-  .eyebrow{
-    font-family:"JetBrains Mono","JetBrains Mono",ui-monospace,monospace;font-size:.72rem;font-weight:500;
-    letter-spacing:.26em;text-transform:uppercase;color:var(--violet);
-    display:inline-flex;align-items:center;gap:.6rem;
-  }
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.72rem;font-weight:500;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--violet);display:inline-flex;align-items:center;gap:.6rem}
   .eyebrow::before{content:"";width:20px;height:1.5px;background:var(--violet);opacity:.6}
 
-  /* brand row */
   .brandrow{display:flex;align-items:center;gap:.7rem;margin-bottom:clamp(2rem,5vw,3rem)}
   .mark{width:40px;height:40px;border-radius:12px;flex:none;
     background:linear-gradient(155deg,#7B43DE,#5E22BC);position:relative;overflow:hidden;
@@ -68,18 +53,14 @@
     border:1px solid rgba(60,200,150,.3);padding:.34rem .6rem;border-radius:999px;display:inline-flex;gap:.45rem;align-items:center}
   .ship .dot{width:7px;height:7px;border-radius:50%;background:#3CCB96;box-shadow:0 0 0 4px rgba(60,203,150,.18)}
 
-  /* hero */
   h1{font-size:clamp(2.3rem,6.4vw,4rem);line-height:1.02;letter-spacing:-.035em;font-weight:850;margin:1.4rem 0 0}
   h1 .g{background:linear-gradient(110deg,var(--violet),var(--scan));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{font-size:clamp(1.05rem,2vw,1.22rem);color:#C9C2DE;max-width:54ch;margin:1.4rem 0 0}
+  .lede{font-size:clamp(1.05rem,2vw,1.22rem);color:#C9C2DE;max-width:56ch;margin:1.4rem 0 0}
   .lede b{color:var(--text);font-weight:600}
 
-  /* the scan strip — signature moment */
   .scanstrip{position:relative;margin:clamp(2rem,5vw,2.8rem) 0 0;height:120px;border-radius:18px;overflow:hidden;
-    background:linear-gradient(180deg,var(--panel),#17121f);border:1px solid var(--line);
-    display:grid;place-items:center}
-  .scanstrip .doc{width:74px;height:92px;border-radius:9px;background:var(--paper);position:relative;
-    box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+    background:linear-gradient(180deg,var(--panel),#17121f);border:1px solid var(--line);display:grid;place-items:center}
+  .scanstrip .doc{width:74px;height:92px;border-radius:9px;background:var(--paper);position:relative;box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
   .scanstrip .doc i{position:absolute;left:14px;height:6px;border-radius:3px;background:#C9BCEC;display:block}
   .scanstrip .doc i:nth-child(1){top:20px;width:44px;background:var(--violet-deep)}
   .scanstrip .doc i:nth-child(2){top:34px;width:32px}
@@ -90,41 +71,38 @@
   @keyframes beam{0%{top:-10px;opacity:0}14%{opacity:1}50%{top:100%;opacity:1}64%{opacity:0}100%{top:-10px;opacity:0}}
   .scanstrip b{position:absolute;bottom:12px;right:16px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.64rem;letter-spacing:.1em;color:var(--faint)}
 
-  /* timeline */
   .sect{margin-top:clamp(2.6rem,6vw,3.6rem)}
   .sect h2{font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.025em;font-weight:800;margin:.9rem 0 0}
-  .sect p.intro{color:var(--muted);margin:.7rem 0 0;max-width:56ch}
+  .sect p.intro{color:var(--muted);margin:.7rem 0 0;max-width:58ch}
   .timeline{margin-top:1.8rem;display:grid;gap:0}
-  .tl{display:grid;grid-template-columns:104px 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line);align-items:start}
+  .tl{display:grid;grid-template-columns:120px 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line);align-items:start}
   .tl:last-child{border-bottom:1px solid var(--line)}
-  .tl .when{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.74rem;color:var(--scan);letter-spacing:.02em;padding-top:.15rem}
+  .tl .when{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.72rem;color:var(--scan);letter-spacing:.02em;padding-top:.2rem}
   .tl h3{margin:0;font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
   .tl p{margin:.25rem 0 0;color:var(--muted);font-size:.95rem}
+  .tl.wall .when{color:#F0A85A}.tl.wall h3{color:#F0A85A}
   .tl.live h3{color:var(--violet)}
 
-  /* AI callout */
   .ai{margin-top:clamp(2.6rem,6vw,3.6rem);background:linear-gradient(160deg,var(--panel-2),#181222);
     border:1px solid var(--line);border-radius:22px;padding:clamp(1.6rem,4vw,2.4rem)}
   .ai h2{margin:.8rem 0 0;font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.025em;font-weight:800}
   .ai p{color:#C4BDD6;margin:1rem 0 0}
-  .ai ul{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:.85rem}
-  .ai li{display:grid;grid-template-columns:22px 1fr;gap:.7rem;color:#C4BDD6;font-size:.98rem}
-  .ai li svg{width:18px;height:18px;margin-top:.28rem;stroke:var(--scan);fill:none;stroke-width:2}
-  .ai .kicker{color:var(--text);font-weight:600}
-  .ai .close{margin-top:1.5rem;font-size:1.02rem;color:var(--text);border-left:2px solid var(--violet);padding-left:1rem}
+  .ai ul{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:1.15rem}
+  .ai li{display:grid;grid-template-columns:24px 1fr;gap:.75rem;color:#C4BDD6;font-size:.98rem}
+  .ai li svg{width:20px;height:20px;margin-top:.2rem;stroke:var(--scan);fill:none;stroke-width:2}
+  .ai .kicker{color:var(--text);font-weight:600;display:block;margin-bottom:.15rem}
+  .ai .close{margin-top:1.6rem;font-size:1.04rem;color:var(--text);border-left:2px solid var(--violet);padding-left:1rem}
 
-  /* what it is */
   .what{margin-top:clamp(2.4rem,6vw,3.4rem);display:grid;gap:.7rem}
   .what .row{display:flex;gap:.7rem;align-items:flex-start;color:#C9C2DE;font-size:1rem}
   .what .row svg{width:18px;height:18px;margin-top:.32rem;flex:none;stroke:var(--violet);fill:none;stroke-width:2}
+  .what b{color:var(--text);font-weight:600}
 
-  /* CTA */
   .cta{margin-top:clamp(2.6rem,6vw,3.4rem);text-align:center}
   .cta h2{font-size:clamp(1.5rem,3.4vw,2.1rem);letter-spacing:-.03em;font-weight:850;margin:0 auto;max-width:20ch}
   .badge{margin-top:1.4rem;display:inline-flex;align-items:center;gap:.7rem;text-decoration:none;
-    background:linear-gradient(110deg,#7B43DE,#4F8DF0);color:#fff;font-weight:700;
-    padding:1rem 1.5rem;border-radius:16px;box-shadow:0 18px 40px -16px rgba(79,141,240,.6);
-    transition:transform .2s,box-shadow .2s}
+    background:linear-gradient(110deg,#7B43DE,#4F8DF0);color:#fff;font-weight:700;padding:1rem 1.5rem;border-radius:16px;
+    box-shadow:0 18px 40px -16px rgba(79,141,240,.6);transition:transform .2s,box-shadow .2s}
   .badge:hover{transform:translateY(-2px);box-shadow:0 24px 50px -18px rgba(79,141,240,.7)}
   .badge:focus-visible{outline:2px solid #fff;outline-offset:3px}
   .badge small{display:block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
@@ -132,16 +110,11 @@
 
   footer{margin-top:clamp(2.6rem,6vw,3.6rem);padding-top:1.6rem;border-top:1px solid var(--line);
     display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;color:var(--faint);font-size:.85rem}
-  footer .mono{color:var(--muted)}
+  footer .who2{color:var(--muted);font-family:"JetBrains Mono",ui-monospace,monospace}
   footer a{color:var(--violet);text-decoration:none}
 
-  @media (max-width:560px){
-    .tl{grid-template-columns:1fr;gap:.2rem}.tl .when{padding-top:0}
-  }
-  @media (prefers-reduced-motion:reduce){
-    .beam{animation:none;top:40px;opacity:.9}
-    .badge{transition:none}
-  }
+  @media (max-width:560px){.tl{grid-template-columns:1fr;gap:.2rem}.tl .when{padding-top:0}}
+  @media (prefers-reduced-motion:reduce){.beam{animation:none;top:40px;opacity:.9}.badge{transition:none}}
 </style>
 </head>
 <body>
@@ -167,7 +140,7 @@
 
   <span class="eyebrow">Build log · shipped</span>
   <h1>From a design post<br>to the <span class="g">App Store</span>,<br>in a week.</h1>
-  <p class="lede">A few days ago I shared some of my mobile design work here. Today that design is a real app you can download — <b>Glean</b>, a private document scanner for iPhone. Here's the timeline, and an honest note on why solo building moves this fast now.</p>
+  <p class="lede">A few days ago I shared a mobile design here. This week it's a real app you can download — <b>Glean</b>, a private document scanner for iPhone. Solo, that turnaround used to take months. Here's the honest version of how it happened — the wall I hit included — and the real role AI played.</p>
 
   <div class="scanstrip" aria-hidden="true">
     <div class="doc"><i></i><i></i><i></i></div>
@@ -177,33 +150,35 @@
 
   <section class="sect">
     <span class="eyebrow">The timeline</span>
-    <h2>Design to download, compressed.</h2>
-    <p class="intro">No team, no backend, no runway — one person going from a Figma direction to a reviewed, approved app in roughly a week.</p>
+    <h2>Design to download — wall included.</h2>
+    <p class="intro">One person, no team, no backend. It wasn't a clean straight line — there was a rejection in the middle. What made the difference was how fast I could recover.</p>
     <div class="timeline">
-      <div class="tl"><span class="when">Day 1</span><div><h3>Shared the design</h3><p>Posted the mobile concept for a calm, privacy-first scanner.</p></div></div>
-      <div class="tl"><span class="when">Days 2–6</span><div><h3>Built it for real</h3><p>React Native + Expo, native iOS scanning, on-device text recognition, searchable-PDF export, optional Google Drive sync.</p></div></div>
-      <div class="tl"><span class="when">Day 7</span><div><h3>Submitted to App Review</h3><p>Store listing, screenshots, privacy details, a unique icon, and a marketing site — all in place.</p></div></div>
+      <div class="tl"><span class="when">Day 1</span><div><h3>Shared the design</h3><p>Posted the concept for a calm, privacy-first scanner.</p></div></div>
+      <div class="tl"><span class="when">Days 2–6</span><div><h3>Built it for real</h3><p>React Native + Expo, native iOS scanning, on-device text recognition, searchable-PDF export, optional Google Drive. (An earlier in-browser scanner attempt had failed badly — going fully native was the right call.)</p></div></div>
+      <div class="tl"><span class="when">Day 7</span><div><h3>Submitted to App Review</h3><p>Listing, screenshots, privacy details, and a marketing site, all in place.</p></div></div>
+      <div class="tl wall"><span class="when">The wall</span><div><h3>Rejected — Guideline 4.3(a)</h3><p>Apple flagged the app icon as a duplicate. I'd shipped with a default template icon. Fair hit.</p></div></div>
+      <div class="tl"><span class="when">Same day</span><div><h3>Fixed &amp; resubmitted</h3><p>Three unique, on-brand icon concepts designed and compared, a stubborn iOS build error cleared, a fresh build cut and back in review — within hours.</p></div></div>
       <div class="tl live"><span class="when">This week</span><div><h3>Approved &amp; live</h3><p>Glean v1.0 is on the App Store.</p></div></div>
     </div>
   </section>
 
   <div class="ai">
-    <span class="eyebrow">The honest part</span>
-    <h2>AI is changing the math for solo builders.</h2>
-    <p>I designed and built Glean end to end, by myself. That used to mean months. AI was the force multiplier that turned it into days — not by doing the thinking for me, but by removing the drag between an idea and a working build.</p>
+    <span class="eyebrow">The real part</span>
+    <h2>Where AI actually moved the needle.</h2>
+    <p>Not vague "productivity." Three specific moments from this build that would have stalled me solo — and didn't:</p>
     <ul>
-      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">Idea → working screen, same sitting.</span> Design directions became real React Native UI fast enough to actually feel the product and iterate.</span></li>
-      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">Native walls cleared in minutes.</span> The gnarly iOS build and linker issues that used to eat days got diagnosed and fixed quickly.</span></li>
-      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><span class="kicker">The whole launch surface, not just code.</span> Icon, marketing site, store assets, and copy — produced and polished without a separate sprint for each.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><span><span class="kicker">A day-long bug, gone in minutes.</span> The iOS build refused to link against a private Apple framework — a fresh Xcode quirk. Instead of an afternoon lost to forum threads, the cause and a clean workaround surfaced fast, and the build went through.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><span><span class="kicker">A rejection turned into a same-day resubmit.</span> When Apple bounced the icon, I had three original, on-brand options designed and compared, a sneaky icon-caching gotcha caught, and a new build submitted before the day was out — instead of losing a week.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><span><span class="kicker">One person, the whole launch surface.</span> App code, the icon, the marketing site, store copy — even scripting the App Store Connect API to track review status without clicking through the dashboard.</span></li>
     </ul>
-    <p class="close">The taste, the product decisions, and the privacy stance are still mine. AI just collapsed the distance to shipped.</p>
+    <p class="close">What stayed mine: the privacy stance — everything on-device, no servers — the product decisions, and the design taste. AI didn't make those calls. It collapsed the time between making them and shipping them.</p>
   </div>
 
   <section class="what">
     <span class="eyebrow" style="margin-bottom:.3rem">What Glean does</span>
-    <div class="row"><svg viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/></svg><span>Scan receipts and documents into crisp, <b style="color:var(--text);font-weight:600">searchable PDFs</b>.</span></div>
-    <div class="row"><svg viewBox="0 0 24 24"><path d="M6 4h9l5 5v11H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v5h5"/></svg><span>Edit, then store straight to your <b style="color:var(--text);font-weight:600">Google Drive</b> — or keep everything on your device.</span></div>
-    <div class="row"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9.5 12l2 2 3.5-3.5"/></svg><span><b style="color:var(--text);font-weight:600">Privacy by Design:</b> on-device scanning and OCR — no servers ever see your documents.</span></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/></svg><span>Scan receipts and documents into crisp, <b>searchable PDFs</b>.</span></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M6 4h9l5 5v11H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v5h5"/></svg><span>Edit, then store straight to your <b>Google Drive</b> — or keep everything on your device.</span></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z"/><path d="M9.5 12l2 2 3.5-3.5"/></svg><span><b>Privacy by Design:</b> on-device scanning and OCR — no servers ever see your documents.</span></div>
   </section>
 
   <div class="cta">
@@ -218,11 +193,10 @@
     <span class="mark" style="width:26px;height:26px;border-radius:8px">
       <svg viewBox="0 0 100 100" aria-hidden="true"><g transform="rotate(7 50 50)"><path d="M34 32 a5 5 0 0 1 5 -5 h20 l8 8 v30 a5 5 0 0 1 -5 5 h-23 a5 5 0 0 1 -5 -5 z" fill="#FFFFFF"/><rect x="39" y="46" width="22" height="3.4" rx="1.7" fill="#7B43DE"/><rect x="39" y="53" width="16" height="2.6" rx="1.3" fill="#B79CF2"/></g></svg>
     </span>
-    <span class="mono">Built &amp; designed by Zahid Hussain · TechFoundry</span>
+    <span class="who2">Built &amp; designed by Zahid Hussain · TechFoundry</span>
     <a href="https://products.tech-foundry.com/glean/" target="_blank" rel="noopener" style="margin-left:auto">glean ↗</a>
   </footer>
 
 </div>
-
 </body>
 </html>
